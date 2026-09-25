@@ -1,0 +1,7 @@
+norm-tooling/
+handoff/
+built/
+rpm-evidence/
+.rpm-gnupg/
+__pycache__/
+*.pyc
