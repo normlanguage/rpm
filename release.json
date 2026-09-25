@@ -1,6 +1,6 @@
 {
   "packageVersion": "1",
-  "packageRelease": "1",
+  "packageRelease": "2",
   "fingerprint": "2A0180182241E5B818F01CA7D18F82B10380DDB8",
   "baseurl": "https://normlanguage.github.io/rpm/fedora/44/$basearch",
   "keyurl": "https://normlanguage.github.io/rpm/RPM-GPG-KEY-normlang"

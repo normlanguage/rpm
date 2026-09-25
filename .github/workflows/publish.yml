@@ -25,7 +25,7 @@ permissions:
   deployments: read
 
 env:
-  NORM_TOOLING_COMMIT: cf58cbb234ba9e12409ec2f2c2d656332b0163ff
+  NORM_TOOLING_COMMIT: ed2440700bca78ba7870db5ac97056b325345007
   RPM_SITE_URL: https://normlanguage.github.io/rpm
 
 jobs:
