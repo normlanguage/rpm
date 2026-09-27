@@ -1,5 +1,7 @@
 # Norm RPM repository
 
+[简体中文](README.zh-CN.md)
+
 The Norm RPM repository currently targets Fedora 44 on x86_64. `normlang` bundles its application Java runtime under `/usr/lib/normlang`. `normlang-release` installs the signed DNF source and its public key; removing `normlang` leaves that source available.
 
 Add the source once, then use DNF for the application lifecycle:
