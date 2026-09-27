@@ -60,7 +60,7 @@ project_hash="$(sha256sum "/home/$user/project/hello.norm" | cut -d' ' -f1)"
 
 attempted_install=yes
 dnf -y install "normlang-$previous-1.x86_64"
-runuser -u "$user" -- norm --version | grep -Fx "norm $previous"
+norm --version | grep -Fx "norm $previous"
 dnf -y upgrade normlang
 runuser -u "$user" -- norm --version | grep -Fx "norm $current"
 runuser -u "$user" -- bash -c "cd /home/$user/project && norm run hello.norm" | grep -Fx 'Hello from Norm'
@@ -69,6 +69,14 @@ cp -a norm-tooling/cli/compiler/scripts "/home/$user/worktree/cli/compiler/"
 chown -R "$user:$user" "/home/$user/worktree"
 runuser -u "$user" -- env JAVA_HOME=/usr/lib/normlang/runtime node "/home/$user/worktree/cli/compiler/scripts/verify-lsp.mjs" /usr/lib/normlang "/home/$user/lsp-evidence" /usr/bin/norm
 test "$(rpm -q --qf '%{VERSION}' normlang)" = "$current"
+dnf -y remove normlang
+attempted_install=no
+test ! -e /usr/bin/norm
+test ! -e /usr/lib/normlang
+attempted_install=yes
+dnf -y install normlang
+runuser -u "$user" -- norm --version | grep -Fx "norm $current"
+runuser -u "$user" -- bash -c "cd /home/$user/project && norm run hello.norm" | grep -Fx 'Hello from Norm'
 dnf -y remove normlang
 attempted_install=no
 test ! -e /usr/bin/norm
