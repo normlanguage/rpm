@@ -65,6 +65,25 @@ class PayloadVerificationTest(unittest.TestCase):
         self.assertEqual(report["sourcePathCount"], report["rpmPathCount"])
         self.assertEqual(report["source"]["lib"]["mode"], 0o2775)
 
+    def test_private_root_is_publicly_traversable_even_when_old_archive_root_is_private(self):
+        with tempfile.TemporaryDirectory() as directory:
+            old_root = Path(directory) / "norm"
+            shutil.copytree(self.source, old_root, symlinks=True)
+            old_root.chmod(0o700)
+            old_archive = Path(directory) / "old.tar.gz"
+            with tarfile.open(old_archive, "w:gz") as bundle:
+                bundle.add(old_root, arcname="norm")
+            extracted = Path(directory) / "extracted"
+            extracted.mkdir()
+            report = compare_payload(inventory_tar(old_archive), extract_rpm(self.package, extracted))
+            self.assertEqual(report["outerDifferences"], {})
+            private_root = extracted / "usr/lib/normlang"
+            private_root.chmod(0o700)
+            report = compare_payload(inventory_tar(old_archive), extracted)
+            self.assertIn("usr/lib/normlang", report["outerDifferences"])
+            with self.assertRaises(ValueError):
+                require_exact_payload(report)
+
     def test_rejects_an_unlisted_rpm_path(self):
         with tempfile.TemporaryDirectory() as directory:
             extracted = extract_rpm(self.package, Path(directory))

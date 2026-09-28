@@ -93,7 +93,7 @@ def compare_payload(source, extracted):
     }
     wrapper = b'#!/bin/sh\nexec /usr/lib/normlang/bin/norm "$@"\n'
     expected_outer = {
-        private: {"type": "directory", "mode": source["rootMode"]},
+        private: {"type": "directory", "mode": 0o755},
         "usr/bin/norm": {"type": "file", "mode": 0o755, "sha256": hashlib.sha256(wrapper).hexdigest()},
     }
     implicit_parents = {"usr", "usr/bin", "usr/lib"}
